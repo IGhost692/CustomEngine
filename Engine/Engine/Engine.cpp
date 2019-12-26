@@ -5,6 +5,8 @@
 #include "Engine.h"
 #include "LinkedList.h"
 #include "CustomTypes.h"
+#include "GlobalVariables.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -65,8 +67,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	List = new LinkedList<Entity>;
 	
     // Main message loop:
-    //while (true)
-    //{
+    while (true)
+    {
         if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
         {
             TranslateMessage(&msg);
@@ -77,7 +79,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			//Application systems here
 		}
 
-    //}
+    }
 
 	delete List;
 	return (int) msg.wParam;
@@ -126,7 +128,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Store instance handle in our global variable
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+      CW_USEDEFAULT, 0, WindowWidth, WindowHeight, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
