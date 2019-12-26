@@ -3,14 +3,15 @@
 
 #include "stdafx.h"
 #include "Engine.h"
+
 #include "LinkedList.h"
 #include "CustomTypes.h"
 #include "GlobalVariables.h"
+#include "Renderer.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-
 
 #define MAX_LOADSTRING 100
 
@@ -66,6 +67,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
 	List = new LinkedList<Entity>;
 	
+	Renderer renderer;
+
+	renderer.Initialize();
+
     // Main message loop:
     while (true)
     {
@@ -74,10 +79,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-		else
-		{
-			//Application systems here
-		}
+		
+		//Application systems here
+		renderer.Update();
+		renderer.Render();
+		renderer.Present();
 
     }
 
@@ -127,16 +133,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, WindowWidth, WindowHeight, nullptr, nullptr, hInstance, nullptr);
+   Globals::getInstance().hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+      CW_USEDEFAULT, 0, Globals::getInstance().WindowWidth, Globals::getInstance().WindowHeight, nullptr, nullptr, hInstance, nullptr);
 
-   if (!hWnd)
+   if (!Globals::getInstance().hWnd)
    {
       return FALSE;
    }
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+   ShowWindow(Globals::getInstance().hWnd, nCmdShow);
+   UpdateWindow(Globals::getInstance().hWnd);
 
    return TRUE;
 }
